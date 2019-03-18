@@ -15,28 +15,32 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	private SessionFactory sessionFactory;
 
 	public void addEmployee(Employee employee) {
-		// TODO Auto-generated method stub
+	sessionFactory.getCurrentSession().saveOrUpdate(employee);
 		
 	}
-
+	@SuppressWarnings("unchecked")
 	public List<Employee> getAllEmployees() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return sessionFactory.getCurrentSession().createQuery("from Employee")
+				.list();
 	}
 
 	public void deleteEmployee(Integer employeeId) {
-		// TODO Auto-generated method stub
-		
+		Employee employee = (Employee) sessionFactory.getCurrentSession().load(
+				Employee.class, employeeId);
+		if (null != employee) {
+			this.sessionFactory.getCurrentSession().delete(employee);
+		}
 	}
 
 	public Employee updateEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+		sessionFactory.getCurrentSession().update(employee);
+		return employee;
 	}
 
 	public Employee getEmployee(int employeeid) {
-		// TODO Auto-generated method stub
-		return null;
+		return (Employee) sessionFactory.getCurrentSession().get(
+				Employee.class, employeeid);
 	}
 
 	public SessionFactory getSessionFactory() {
